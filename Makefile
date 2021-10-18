@@ -2,8 +2,9 @@ SHELL := /bin/bash
 
 install:
 	sudo true
-	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sudo -u $$USER bash 
+	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sudo -u $$USER bash
 	brew install --cask visual-studio-code
+	code --install-extension shan.code-settings-sync
 	brew install zsh
 	curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | bash
 	brew install fzf
@@ -11,6 +12,8 @@ install:
 	brew install --cask phoenix
 	brew install hub
 	brew install direnv
+	brew install python
+	brew tap homebrew/cask-fonts && brew install --cask font-terminess-ttf-nerd-font
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
 	@echo "Add this key to your github account and press enter when done";\
@@ -22,6 +25,3 @@ install:
 	mkdir -p $HOME/.config-backup && config checkout 2>&1 | egrep "\s+." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
 	config checkout
 	config config --local status.showUntrackedFiles no
-
-
-

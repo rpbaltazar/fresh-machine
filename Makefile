@@ -14,6 +14,7 @@ install:
 	brew install hub
 	brew install direnv
 	brew install python
+	brew install wget
 	brew tap homebrew/cask-fonts && brew install --cask font-terminess-ttf-nerd-font
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
@@ -26,3 +27,7 @@ install:
 	mkdir -p $HOME/.config-backup && config checkout 2>&1 | egrep "\s+." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
 	config checkout
 	config config --local status.showUntrackedFiles no
+	wget -P /tmp/ https://desktop.docker.com/mac/main/amd64/Docker.dmg
+	sudo hdiutil attach /tmp/Docker.dmg
+	sudo cp -R /Volumes/Docker/Docker.app /Applications
+	sudo hdiutil unmount /Volumes/Docker

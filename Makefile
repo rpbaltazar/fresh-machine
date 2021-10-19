@@ -3,6 +3,7 @@ SHELL := /bin/bash
 install:
 	sudo true
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sudo -u $$USER bash
+	brew install --cask iterm2
 	brew install --cask visual-studio-code
 	code --install-extension shan.code-settings-sync
 	brew install zsh

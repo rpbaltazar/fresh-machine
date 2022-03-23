@@ -1,9 +1,9 @@
 SHELL := /bin/bash
+CONFIG_ALIAS := /usr/bin/git --git-dir=${HOME}/.cfg/ --work-tree=${HOME}
 
 install:
 	sudo true
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | sudo -u $$USER bash
-	brew install --cask iterm2
 	brew install --cask visual-studio-code
 	code --install-extension shan.code-settings-sync
 	brew install zsh
@@ -16,17 +16,13 @@ install:
 	brew install python
 	brew install wget
 	brew tap homebrew/cask-fonts && brew install --cask font-terminess-ttf-nerd-font
-	ssh-keygen
-	cat ~/.ssh/id_rsa.pub
-	@echo "Add this key to your github account and press enter when done";\
-	read OK; \
 	echo "configuring your local machine"
-	alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-	echo ".cfg" >> $HOME/.gitignore
-	git clone git@github.com:rpbaltazar/dotfiles.git --bare $HOME/.cfg
-	mkdir -p $HOME/.config-backup && config checkout 2>&1 | egrep "\s+." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
-	config checkout
-	config config --local status.showUntrackedFiles no
+	alias config='/usr/bin/git --git-dir=${HOME}/.cfg/ --work-tree=${HOME}'
+	echo ".cfg" >> ${HOME}/.gitignore
+	git clone git@github.com:rpbaltazar/dotfiles.git --bare ${HOME}/.cfg
+	mkdir -p ${HOME}/.config-backup && $(CONFIG_ALIAS) checkout 2>&1 | egrep "\s*\..+" | awk {'print $1'} | xargs -I{} mv ${HOME}/{} ${HOME}/.config-backup/{}
+	$(CONFIG_ALIAS) checkout
+	$(CONFIG_ALIAS) config --local status.showUntrackedFiles no
 	wget -P /tmp/ https://desktop.docker.com/mac/main/amd64/Docker.dmg
 	sudo hdiutil attach /tmp/Docker.dmg
 	sudo cp -R /Volumes/Docker/Docker.app /Applications
